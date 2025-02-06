@@ -35,6 +35,16 @@ public sealed class SqlQueryBuilder
         return new InsertIntoStatement<T>(value, tableName);
     }
 
+    public static IDeleteStatement Delete<T>()
+    {
+        return new DeleteStatement<T>();
+    }
+
+    public static IDeleteStatement DeleteFrom(string tableName)
+    {
+        return new DeleteStatement(tableName);
+    }
+
     public SqlQueryBuilder SelectAll(string prefix = "")
     {
         _selectList.Add(string.IsNullOrWhiteSpace(prefix) ? $"{prefix}.*" : "*");

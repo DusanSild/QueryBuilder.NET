@@ -12,7 +12,7 @@ namespace QueryBuilder.NET.Statements;
 
 public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IInsertIntoStatement
 {
-    public string TableName { get; } = string.IsNullOrWhiteSpace(tableName) ? GetTableName(typeof(T)) : tableName;
+    public string TableName { get; } = string.IsNullOrWhiteSpace(tableName) ? NamingHelper.GetTableName(typeof(T)) : tableName;
     public bool InsertIdColumn { get; private set; }
     public string IdColumnName { get; private set; } = QueryBuilderDefaults.IdColumnName;
 
@@ -34,7 +34,7 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
         for (var propertyIdx = 0; propertyIdx < propertyList.Count; propertyIdx++)
         {
             var property = propertyList[propertyIdx];
-            var paramName = CreateParamName(property.Name);
+            var paramName = NamingHelper.CreateParamName(property.Name);
             builder.Append(paramName);
             if (propertyIdx != propertyList.Count - 1)
             {
@@ -76,21 +76,6 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
         InsertIdColumn = true;
         IdColumnName = idColumnName;
         return this;
-    }
-
-    private static string GetTableName(Type entityType)
-    {
-        if (entityType.GetCustomAttributes(typeof(TableAttribute)).FirstOrDefault() is not TableAttribute tableAttribute)
-        {
-            throw new ArgumentException("Model type is missing Table attribute!", nameof(entityType));
-        }
-
-        return tableAttribute.Name;
-    }
-
-    private static string CreateParamName(string propertyName)
-    {
-        return $"@{propertyName.ToCamelCase()}";
     }
 
     private List<PropertyInfo> FilterProperties(Type modelType)
