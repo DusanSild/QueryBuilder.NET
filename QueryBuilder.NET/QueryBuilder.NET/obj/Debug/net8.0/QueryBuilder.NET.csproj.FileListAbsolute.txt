@@ -1,0 +1,12 @@
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/bin/Debug/net8.0/QueryBuilder.NET.deps.json
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/bin/Debug/net8.0/QueryBuilder.NET.dll
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/bin/Debug/net8.0/QueryBuilder.NET.pdb
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.csproj.AssemblyReference.cache
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.GeneratedMSBuildEditorConfig.editorconfig
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.AssemblyInfoInputs.cache
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.AssemblyInfo.cs
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.csproj.CoreCompileInputs.cache
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.dll
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/refint/QueryBuilder.NET.dll
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/QueryBuilder.NET.pdb
+/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/Debug/net8.0/ref/QueryBuilder.NET.dll

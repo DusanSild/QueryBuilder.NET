@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Dapper/2.1.35": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Dapper.ColumnMapper/1.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Dapper": "2.0.30"
+        },
+        "compile": {
+          "lib/netstandard2.0/Dapper.ColumnMapper.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Dapper.ColumnMapper.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Dapper/2.1.35": {
+      "sha512": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw==",
+      "type": "package",
+      "path": "dapper/2.1.35",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Dapper.png",
+        "dapper.2.1.35.nupkg.sha512",
+        "dapper.nuspec",
+        "lib/net461/Dapper.dll",
+        "lib/net461/Dapper.xml",
+        "lib/net5.0/Dapper.dll",
+        "lib/net5.0/Dapper.xml",
+        "lib/net7.0/Dapper.dll",
+        "lib/net7.0/Dapper.xml",
+        "lib/netstandard2.0/Dapper.dll",
+        "lib/netstandard2.0/Dapper.xml",
+        "readme.md"
+      ]
+    },
+    "Dapper.ColumnMapper/1.3.0": {
+      "sha512": "LOk7/bzC1IVpfckEdXoo0qehpL/TjDH9+3C0hrjyDzwIlD+wrVmoReNkp7XxYK5VeJhWSM2PHcomYLzwQBrnRg==",
+      "type": "package",
+      "path": "dapper.columnmapper/1.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "dapper.columnmapper.1.3.0.nupkg.sha512",
+        "dapper.columnmapper.nuspec",
+        "lib/net45/Dapper.ColumnMapper.dll",
+        "lib/net451/Dapper.ColumnMapper.dll",
+        "lib/net461/Dapper.ColumnMapper.dll",
+        "lib/netstandard1.3/Dapper.ColumnMapper.dll",
+        "lib/netstandard2.0/Dapper.ColumnMapper.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Dapper >= 2.1.35",
+      "Dapper.ColumnMapper >= 1.3.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/dusan/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET.csproj",
+      "projectName": "QueryBuilder.NET",
+      "projectPath": "/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET.csproj",
+      "packagesPath": "/Users/dusan/.nuget/packages/",
+      "outputPath": "/Users/dusan/Work/QueryBuilder.NET/QueryBuilder.NET/QueryBuilder.NET/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/dusan/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "dependencies": {
+          "Dapper": {
+            "target": "Package",
+            "version": "[2.1.35, )"
+          },
+          "Dapper.ColumnMapper": {
+            "target": "Package",
+            "version": "[1.3.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

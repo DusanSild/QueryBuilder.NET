@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryBuilder.NET", "QueryBuilder.NET\QueryBuilder.NET.csproj", "{869BACAE-298D-46A9-A474-F956060876DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryBuilderTests", "QueryBuilderTests\QueryBuilderTests.csproj", "{01DA5668-3896-4FF6-B32F-3B002FFA8260}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{869BACAE-298D-46A9-A474-F956060876DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{869BACAE-298D-46A9-A474-F956060876DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{869BACAE-298D-46A9-A474-F956060876DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{869BACAE-298D-46A9-A474-F956060876DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01DA5668-3896-4FF6-B32F-3B002FFA8260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01DA5668-3896-4FF6-B32F-3B002FFA8260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01DA5668-3896-4FF6-B32F-3B002FFA8260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01DA5668-3896-4FF6-B32F-3B002FFA8260}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
