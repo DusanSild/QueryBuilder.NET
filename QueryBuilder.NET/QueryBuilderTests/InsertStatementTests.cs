@@ -4,7 +4,7 @@ using QueryBuilderTests.Models;
 
 namespace QueryBuilderTests;
 
-public class Tests
+public class InsertStatementTests
 {
     private ModelWithTableAttribute _modelWithTableAttribute;
     private ModelWithoutTableAttribute _modelWithoutTableAttribute;

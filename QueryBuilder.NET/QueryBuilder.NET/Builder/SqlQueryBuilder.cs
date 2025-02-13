@@ -35,7 +35,7 @@ public sealed class SqlQueryBuilder
         return new InsertIntoStatement<T>(value, tableName);
     }
 
-    public static IDeleteStatement Delete<T>()
+    public static IDeleteStatement<T> Delete<T>()
     {
         return new DeleteStatement<T>();
     }

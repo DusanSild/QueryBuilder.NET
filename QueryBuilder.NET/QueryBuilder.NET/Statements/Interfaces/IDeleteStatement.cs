@@ -1,6 +1,7 @@
 namespace QueryBuilder.NET.Statements.Interfaces;
 
-public interface IDeleteStatement : IQueryBuilderStatement
+public interface IDeleteStatement : IFilterableStatement
 {
-    public string IdColumnName { get; }
 }
+
+public interface IDeleteStatement<TEntity> : IFilterableStatement<TEntity> {}

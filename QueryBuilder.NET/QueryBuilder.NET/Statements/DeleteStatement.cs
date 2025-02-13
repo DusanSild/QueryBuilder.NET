@@ -1,54 +1,69 @@
-using System.Collections.Specialized;
 using System.Text;
+using Dapper;
 using QueryBuilder.NET.Models;
 using QueryBuilder.NET.Statements.Interfaces;
 using QueryBuilder.NET.Utils;
 
 namespace QueryBuilder.NET.Statements;
 
-public class DeleteStatement(string tableName) : IDeleteStatement, IFilterableStatement
+public class DeleteStatement : DeleteStatementBase
 {
-    public string TableName { get; } = tableName;
-    
-    public string IdColumnName { get; } = QueryBuilderDefaults.IdColumnName;
-    public DapperQuery BuildQuery()
+    public DeleteStatement(string tableName)
     {
-        var builder = new StringBuilder();
-        builder.AppendLine($"""DELETE FROM "{TableName}" """);
-        
-
-        return new DapperQuery
-        {
-            CommandText = builder.ToString()
-        };
-    }
-
-    public OrderedDictionary WhereExpressions { get; set; } = new OrderedDictionary();
-    
-    public IFilterableStatement Where(string columnName, object value)
-    {
-        WhereExpressions.Add(columnName, value);
-        throw new NotImplementedException();
-    }
-
-    public IFilterableStatement AndWhere(string columnName, object value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IFilterableStatement OrWhere(string columnName, object value)
-    {
-        throw new NotImplementedException();
+        TableName = tableName;
     }
 }
 
-public class DeleteStatement<TEntity>(string tableName = "") : IDeleteStatement
+public class DeleteStatement<TEntity> : DeleteStatementBase, IDeleteStatement<TEntity>
 {
-    public string TableName { get; } = string.IsNullOrWhiteSpace(tableName) ? NamingHelper.GetTableName(typeof(TEntity)) : tableName;
+    public DeleteStatement()
+    {
+        TableName = NamingHelper.GetTableName(typeof(TEntity));
+    }
+}
 
-    public string IdColumnName { get; } = QueryBuilderDefaults.IdColumnName;
+public abstract class DeleteStatementBase : IDeleteStatement
+{
+    public string TableName { get; protected set; } = "";
+    
+    public string IdColumnName { get; protected set;  } = QueryBuilderDefaults.IdColumnName;
+    
+    public List<WhereClause> WhereExpressions { get; protected set; } = new();
+    
     public DapperQuery BuildQuery()
     {
-        throw new NotImplementedException();
+        var builder = new StringBuilder();
+        builder.AppendLine($"""DELETE FROM {NamingHelper.FormatSqlName(TableName)} """);
+
+        var dynamicParameters = new DynamicParameters();
+        if (WhereExpressions.Count > 0)
+        {
+            bool first = true;
+            int index = 0;
+            foreach (var expression in WhereExpressions)
+            {
+                if (first)
+                {
+                    first = false;
+                    builder.Append("WHERE ");
+                }
+                else
+                {
+                    builder.Append($"{expression.LogicalOperator.ToString().ToUpper()} ");
+                }
+                
+                var paramName = $"@p{index++}";
+                dynamicParameters.Add(paramName, expression.Value);
+                builder.Append($"{NamingHelper.FormatSqlName(expression.Column)} = {paramName} ");
+            }
+        }
+
+        builder.Append(';');
+        
+        return new DapperQuery
+        {
+            CommandText = builder.ToString(),
+            Parameters = dynamicParameters
+        };
     }
 }

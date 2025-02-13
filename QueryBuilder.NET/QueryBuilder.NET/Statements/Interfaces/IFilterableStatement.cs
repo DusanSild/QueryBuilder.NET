@@ -1,14 +1,10 @@
-using System.Collections.Specialized;
+using QueryBuilder.NET.Models;
 
 namespace QueryBuilder.NET.Statements.Interfaces;
 
-public interface IFilterableStatement
+public interface IFilterableStatement : IQueryBuilderStatement
 {
-    protected OrderedDictionary WhereExpressions { get; set; }
-    
-    public IFilterableStatement Where(string columnName, object value);
-    
-    public IFilterableStatement AndWhere(string columnName, object value);
-    
-    public IFilterableStatement OrWhere(string columnName, object value);
+    protected internal List<WhereClause> WhereExpressions { get; }
 }
+
+public interface IFilterableStatement<TEntity> : IFilterableStatement {}
