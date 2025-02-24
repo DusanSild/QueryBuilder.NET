@@ -11,4 +11,10 @@
         <PackageReference Include="Dapper.ColumnMapper" Version="1.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>QueryBuilderTests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
 </Project>
