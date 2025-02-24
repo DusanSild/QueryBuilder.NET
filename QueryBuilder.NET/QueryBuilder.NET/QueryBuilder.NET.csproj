@@ -4,6 +4,15 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Version>0.2.3</Version>
+        <PackageId>QueryBuilder.Net</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/DusanSild/QueryBuilder.NET</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/DusanSild/QueryBuilder.NET</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Copyright>Dusan Sild @ 2025</Copyright>
+        <PackageTags>Npgsql,Dapper,ColumnMapping,query generator</PackageTags>
     </PropertyGroup>
     
     <ItemGroup>
@@ -15,6 +24,11 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>QueryBuilderTests</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <None Include="../../README.md" Pack="true" PackagePath="\" />
+        <None Include="../../LICENSE" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
