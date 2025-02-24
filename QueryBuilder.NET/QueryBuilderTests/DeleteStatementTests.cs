@@ -34,7 +34,7 @@ public class DeleteStatementTests
     }
     
     [Test]
-    public void TestModelWithAttribute()
+    public void DeleteModelWithAttribute()
     {
         var deleteStatement = SqlQueryBuilder.Delete<ModelWithTableAttribute>()
             .Where(model => model.Id, _modelWithTableAttribute.Id);
@@ -56,9 +56,15 @@ public class DeleteStatementTests
         
         // assert that command contains INSERT INTO table name
         StringAssert.Contains($@"DELETE FROM ""{ModelWithTableAttribute.TableName}""", dapperQuery.CommandText);
+        
+        Assert.That(dapperQuery.Parameters, Is.Not.Null);
+        
+        //check the first parameter
+        Assert.That(dapperQuery.Parameters.Get<Guid>("@p0"), Is.EqualTo(_modelWithTableAttribute.Id));
     }
 
-    public void TestModelWithoutAttribute()
+    [Test]
+    public void DeleteModelWithoutAttribute()
     {
         var tableName = "TestTable";
         
@@ -82,5 +88,10 @@ public class DeleteStatementTests
         
         // assert that command contains INSERT INTO table name
         StringAssert.Contains($@"DELETE FROM {NamingHelper.FormatSqlName(tableName)}", dapperQuery.CommandText);
+        
+        Assert.That(dapperQuery.Parameters, Is.Not.Null);
+        
+        //check the first parameter
+        Assert.That(dapperQuery.Parameters.Get<long>("@p0"), Is.EqualTo(_modelWithoutTableAttribute.Id));
     }
 }

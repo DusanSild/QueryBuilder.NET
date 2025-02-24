@@ -2,7 +2,7 @@ namespace QueryBuilder.NET.Models;
 
 public struct WhereClause
 {
-    public WhereClause(string columnName, object value, LogicalOperators logicalOperator = LogicalOperators.And)
+    public WhereClause(string columnName, object? value, LogicalOperators logicalOperator = LogicalOperators.And)
     {
         Column = columnName;
         Value = value;
@@ -11,5 +11,5 @@ public struct WhereClause
 
     public string Column { get; set; }
     public LogicalOperators LogicalOperator { get; set; } = LogicalOperators.And;
-    public object Value { get; set; }
+    public object? Value { get; set; }
 }

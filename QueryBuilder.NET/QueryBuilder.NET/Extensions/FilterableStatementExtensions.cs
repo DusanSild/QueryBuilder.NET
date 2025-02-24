@@ -7,13 +7,14 @@ namespace QueryBuilder.NET.Extensions;
 
 public static class FilterableStatementExtensions
 {
-    // public static IFilterableStatement Where<T>(this IFilterableStatement statement, string columnName, T value)
-    // {
-    //     statement.WhereExpressions.Add(new WhereClause(columnName, value));
-    //     return statement;
-    // }
-
     public static IFilterableStatement Where<TEntity, TProperty>(this IFilterableStatement statement, Expression<Func<TEntity, TProperty>> propertySelector, TProperty value)
+    {
+        var columnName = NamingHelper.GetColumnName(propertySelector);
+        statement.WhereExpressions.Add(new WhereClause(columnName, value));
+        return statement;
+    }
+    
+    public static IFilterableStatement<TEntity> Where<TProperty, TEntity>(this IFilterableStatement<TEntity> statement, Expression<Func<TEntity, TProperty>> propertySelector, TProperty value)
     {
         var columnName = NamingHelper.GetColumnName(propertySelector);
         statement.WhereExpressions.Add(new WhereClause(columnName, value));
@@ -30,13 +31,6 @@ public static class FilterableStatementExtensions
     {
         var columnName = NamingHelper.GetColumnName(propertySelector);
         statement.WhereExpressions.Add(new WhereClause(columnName, value, LogicalOperators.Or));
-        return statement;
-    }
-    
-    public static IFilterableStatement<TEntity> Where<TProperty, TEntity>(this IFilterableStatement<TEntity> statement, Expression<Func<TEntity, TProperty>> propertySelector, TProperty value)
-    {
-        var columnName = NamingHelper.GetColumnName(propertySelector);
-        statement.WhereExpressions.Add(new WhereClause(columnName, value));
         return statement;
     }
 }

@@ -6,7 +6,7 @@ using QueryBuilder.NET.Utils;
 
 namespace QueryBuilder.NET.Statements;
 
-public class DeleteStatement : DeleteStatementBase
+public sealed class DeleteStatement : DeleteStatementBase
 {
     public DeleteStatement(string tableName)
     {
@@ -14,7 +14,7 @@ public class DeleteStatement : DeleteStatementBase
     }
 }
 
-public class DeleteStatement<TEntity> : DeleteStatementBase, IDeleteStatement<TEntity>
+public sealed class DeleteStatement<TEntity> : DeleteStatementBase, IDeleteStatement<TEntity>
 {
     public DeleteStatement()
     {
