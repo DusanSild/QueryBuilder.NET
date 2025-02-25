@@ -1,6 +1,6 @@
-using QueryBuilder.NET.Builder;
-using QueryBuilder.NET.Extensions;
-using QueryBuilder.NET.Utils;
+using QueryBuilderDotNet.Builder;
+using QueryBuilderDotNet.Extensions;
+using QueryBuilderDotNet.Utils;
 using QueryBuilderTests.Models;
 
 namespace QueryBuilderTests;

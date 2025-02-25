@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using QueryBuilder.NET.Statements;
-using QueryBuilder.NET.Statements.Interfaces;
+using QueryBuilderDotNet.Statements;
+using QueryBuilderDotNet.Statements.Interfaces;
 
-namespace QueryBuilder.NET.Builder;
+namespace QueryBuilderDotNet.Builder;
 
 public static class SqlQueryBuilder
 {

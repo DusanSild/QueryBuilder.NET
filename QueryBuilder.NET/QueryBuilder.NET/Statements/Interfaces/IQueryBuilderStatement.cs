@@ -1,6 +1,6 @@
-using QueryBuilder.NET.Models;
+using QueryBuilderDotNet.Models;
 
-namespace QueryBuilder.NET.Statements.Interfaces;
+namespace QueryBuilderDotNet.Statements.Interfaces;
 
 public interface IQueryBuilderStatement
 {

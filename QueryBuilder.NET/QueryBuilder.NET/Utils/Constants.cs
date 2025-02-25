@@ -1,4 +1,4 @@
-namespace QueryBuilder.NET.Utils;
+namespace QueryBuilderDotNet.Utils;
 
 public static class QueryBuilderDefaults
 {

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Dapper.ColumnMapper;
 
-namespace QueryBuilder.NET.Utils;
+namespace QueryBuilderDotNet.Utils;
 
 internal static class NamingHelper
 {

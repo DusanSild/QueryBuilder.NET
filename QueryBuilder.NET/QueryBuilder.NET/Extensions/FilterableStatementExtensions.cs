@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
-using QueryBuilder.NET.Models;
-using QueryBuilder.NET.Statements.Interfaces;
-using QueryBuilder.NET.Utils;
+using QueryBuilderDotNet.Models;
+using QueryBuilderDotNet.Statements.Interfaces;
+using QueryBuilderDotNet.Utils;
 
-namespace QueryBuilder.NET.Extensions;
+namespace QueryBuilderDotNet.Extensions;
 
 public static class FilterableStatementExtensions
 {

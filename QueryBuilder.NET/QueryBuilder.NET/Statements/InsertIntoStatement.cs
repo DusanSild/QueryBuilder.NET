@@ -4,11 +4,11 @@ using System.Reflection;
 using System.Text;
 using Dapper;
 using Dapper.ColumnMapper;
-using QueryBuilder.NET.Models;
-using QueryBuilder.NET.Statements.Interfaces;
-using QueryBuilder.NET.Utils;
+using QueryBuilderDotNet.Models;
+using QueryBuilderDotNet.Statements.Interfaces;
+using QueryBuilderDotNet.Utils;
 
-namespace QueryBuilder.NET.Statements;
+namespace QueryBuilderDotNet.Statements;
 
 public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IInsertIntoStatement
 {

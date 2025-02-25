@@ -1,6 +1,6 @@
-using QueryBuilder.NET.Utils;
+using QueryBuilderDotNet.Utils;
 
-namespace QueryBuilder.NET.Statements.Interfaces;
+namespace QueryBuilderDotNet.Statements.Interfaces;
 
 public interface IInsertIntoStatement : IQueryBuilderStatement
 {

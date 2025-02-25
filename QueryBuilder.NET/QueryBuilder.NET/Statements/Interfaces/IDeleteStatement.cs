@@ -1,4 +1,4 @@
-namespace QueryBuilder.NET.Statements.Interfaces;
+namespace QueryBuilderDotNet.Statements.Interfaces;
 
 public interface IDeleteStatement : IFilterableStatement
 {

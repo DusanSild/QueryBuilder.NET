@@ -1,4 +1,4 @@
-namespace QueryBuilder.NET.Models;
+namespace QueryBuilderDotNet.Models;
 
 public struct WhereClause
 {
