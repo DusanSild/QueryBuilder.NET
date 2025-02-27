@@ -80,8 +80,9 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
 
     private List<PropertyInfo> FilterProperties(Type modelType)
     {
+        var modelProperties = modelType.GetProperties();
         List<PropertyInfo> properties = new();
-        foreach (var propertyInfo in modelType.GetProperties())
+        foreach (var propertyInfo in modelProperties)
         {
             if (!propertyInfo.CanRead || !propertyInfo.CanWrite ||
                 propertyInfo.CustomAttributes.Any(att => att.AttributeType == typeof(NotMappedAttribute)))
@@ -89,8 +90,14 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
                 continue;
             }
 
-            if (!InsertIdColumn && (propertyInfo.Name.Equals(IdColumnName, StringComparison.OrdinalIgnoreCase) ||
-                                     propertyInfo.CustomAttributes.Any(att => att.AttributeType == typeof(KeyAttribute))))
+            var foreignKeyProperty = modelProperties.FirstOrDefault(p => p.Name == $"{propertyInfo.Name}Id"); 
+            if (foreignKeyProperty != null && foreignKeyProperty.CustomAttributes.All(att => att.AttributeType != typeof(NotMappedAttribute)))
+            {
+                continue;
+            }
+
+            if (!InsertIdColumn && (propertyInfo.Name.Equals(IdColumnName, StringComparison.OrdinalIgnoreCase) || 
+                                    propertyInfo.CustomAttributes.Any(att => att.AttributeType == typeof(KeyAttribute))))
             {
                 continue;
             }
