@@ -13,8 +13,9 @@ namespace QueryBuilderDotNet.Statements;
 public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IInsertIntoStatement
 {
     public string TableName { get; } = string.IsNullOrWhiteSpace(tableName) ? NamingHelper.GetTableName(typeof(T)) : tableName;
-    public bool InsertIdColumn { get; private set; }
-    public string IdColumnName { get; private set; } = QueryBuilderDefaults.IdColumnName;
+    public bool IsInsertingIdColumn { get; private set; }
+    public bool IsReturningIdColumn { get; private set; }
+    public string IdColumnName { get; private set; } = NamingHelper.GetIdColumnName(typeof(T));
 
     private readonly List<string> _returningColumns = new();
 
@@ -45,9 +46,14 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
 
         builder.Append(')');
 
+        if (IsReturningIdColumn)
+        {
+            _returningColumns.Add(IdColumnName);
+        }
+        
         if (_returningColumns.Count != 0)
         {
-            builder.Append($"\nRETURNING {string.Join(", ", _returningColumns)}");
+            builder.Append($"\nRETURNING {string.Join(", ", _returningColumns.Select(NamingHelper.FormatSqlName))}");
         }
 
         builder.Append(';');
@@ -65,15 +71,19 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
         return this;
     }
 
-    public IInsertIntoStatement ReturningId()
+    public IInsertIntoStatement ReturningId(string? idColumnName = null)
     {
-        _returningColumns.Add($"\"{QueryBuilderDefaults.IdColumnName}\"");
+        IsReturningIdColumn = true;
+        if (!string.IsNullOrWhiteSpace(idColumnName))
+        {
+            IdColumnName = idColumnName;
+        }
         return this;
     }
 
     public IInsertIntoStatement InsertingId(string idColumnName = QueryBuilderDefaults.IdColumnName)
     {
-        InsertIdColumn = true;
+        IsInsertingIdColumn = true;
         IdColumnName = idColumnName;
         return this;
     }
@@ -96,7 +106,7 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
                 continue;
             }
 
-            if (!InsertIdColumn && (propertyInfo.Name.Equals(IdColumnName, StringComparison.OrdinalIgnoreCase) || 
+            if (!IsInsertingIdColumn && (propertyInfo.Name.Equals(IdColumnName, StringComparison.OrdinalIgnoreCase) || 
                                     propertyInfo.CustomAttributes.Any(att => att.AttributeType == typeof(KeyAttribute))))
             {
                 continue;

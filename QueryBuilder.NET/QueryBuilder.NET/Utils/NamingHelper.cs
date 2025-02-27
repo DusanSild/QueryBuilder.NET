@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -25,6 +26,26 @@ internal static class NamingHelper
     internal static string FormatSqlName(string entityName)
     {
         return $"\"{entityName}\"";
+    }
+
+    internal static string GetIdColumnName(Type entityType)
+    {
+        var properties = entityType.GetProperties();
+        var keyProperty = properties.FirstOrDefault(prop => prop.GetCustomAttribute<KeyAttribute>() != null);
+
+        if (keyProperty == null)
+        {
+            return QueryBuilderDefaults.IdColumnName;
+        }
+        
+        var columnMappingAttribute = keyProperty.GetCustomAttribute<ColumnMappingAttribute>();
+        if (columnMappingAttribute != null)
+        {
+            return columnMappingAttribute.ColumnName;
+        }
+        
+        var columnAttribute = keyProperty.GetCustomAttribute<ColumnAttribute>();
+        return columnAttribute?.Name ?? keyProperty.Name;
     }
 
     internal static string GetColumnName<TModel, TProperty>(Expression<Func<TModel, TProperty>> propertySelector)

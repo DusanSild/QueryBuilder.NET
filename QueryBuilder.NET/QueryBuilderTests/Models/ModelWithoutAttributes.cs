@@ -1,6 +1,6 @@
 namespace QueryBuilderTests.Models;
 
-public class ModelWithoutTableAttribute
+public class ModelWithoutAttributes
 {
     public long Id { get; set; }
 

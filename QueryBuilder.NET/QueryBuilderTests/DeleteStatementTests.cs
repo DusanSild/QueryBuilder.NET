@@ -7,13 +7,13 @@ namespace QueryBuilderTests;
 
 public class DeleteStatementTests
 {
-    private ModelWithTableAttribute _modelWithTableAttribute;
-    private ModelWithoutTableAttribute _modelWithoutTableAttribute;
+    private ModelWithAttributes _modelWithAttributes;
+    private ModelWithoutAttributes _modelWithoutAttributes;
     
     [SetUp]
     public void Setup()
     {
-        _modelWithTableAttribute = new ModelWithTableAttribute
+        _modelWithAttributes = new ModelWithAttributes
         {
             Id = Guid.Empty,
             Age = 45,
@@ -24,7 +24,7 @@ public class DeleteStatementTests
             DateOfBirth = new DateTime(1980, 1, 24, 0,0,0,DateTimeKind.Utc)
         };
 
-        _modelWithoutTableAttribute = new ModelWithoutTableAttribute
+        _modelWithoutAttributes = new ModelWithoutAttributes
         {
             Id = 1,
             Note = "Some useful note",
@@ -36,14 +36,14 @@ public class DeleteStatementTests
     [Test]
     public void DeleteModelWithAttribute()
     {
-        var deleteStatement = SqlQueryBuilder.Delete<ModelWithTableAttribute>()
-            .Where(model => model.Id, _modelWithTableAttribute.Id);
+        var deleteStatement = SqlQueryBuilder.Delete<ModelWithAttributes>()
+            .Where(model => model.Id, _modelWithAttributes.Id);
         
         // assert statement is created
         Assert.That(deleteStatement, Is.Not.Null);
         
         // assert that table is taken from the Table attribute
-        Assert.That(deleteStatement.TableName, Is.EqualTo(ModelWithTableAttribute.TableName));
+        Assert.That(deleteStatement.TableName, Is.EqualTo(ModelWithAttributes.TableName));
         
         // assert that ID column name is default
         Assert.That(deleteStatement.IdColumnName, Is.EqualTo(QueryBuilderDefaults.IdColumnName));
@@ -55,12 +55,12 @@ public class DeleteStatementTests
         Assert.That(dapperQuery.CommandText, Is.Not.Null);
         
         // assert that command contains INSERT INTO table name
-        StringAssert.Contains($@"DELETE FROM ""{ModelWithTableAttribute.TableName}""", dapperQuery.CommandText);
+        StringAssert.Contains($@"DELETE FROM ""{ModelWithAttributes.TableName}""", dapperQuery.CommandText);
         
         Assert.That(dapperQuery.Parameters, Is.Not.Null);
         
         //check the first parameter
-        Assert.That(dapperQuery.Parameters.Get<Guid>("@p0"), Is.EqualTo(_modelWithTableAttribute.Id));
+        Assert.That(dapperQuery.Parameters.Get<Guid>("@p0"), Is.EqualTo(_modelWithAttributes.Id));
     }
 
     [Test]
@@ -69,7 +69,7 @@ public class DeleteStatementTests
         var tableName = "TestTable";
         
         var deleteStatement = SqlQueryBuilder.DeleteFrom(tableName)
-            .Where<ModelWithoutTableAttribute, long>(model => model.Id, _modelWithoutTableAttribute.Id);
+            .Where<ModelWithoutAttributes, long>(model => model.Id, _modelWithoutAttributes.Id);
         
         // assert statement is created
         Assert.That(deleteStatement, Is.Not.Null);
@@ -92,6 +92,6 @@ public class DeleteStatementTests
         Assert.That(dapperQuery.Parameters, Is.Not.Null);
         
         //check the first parameter
-        Assert.That(dapperQuery.Parameters.Get<long>("@p0"), Is.EqualTo(_modelWithoutTableAttribute.Id));
+        Assert.That(dapperQuery.Parameters.Get<long>("@p0"), Is.EqualTo(_modelWithoutAttributes.Id));
     }
 }
