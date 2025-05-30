@@ -82,4 +82,39 @@ internal static class NamingHelper
         var columnAttribute = memberExp.Member.GetCustomAttribute<ColumnAttribute>();
         return columnAttribute?.Name ?? memberExp.Member.Name;
     }
+
+    internal static string GetColumnNameFromMember(MemberInfo member)
+    {
+        var columnMappingAttribute = member.GetCustomAttribute<ColumnMappingAttribute>();
+        if (columnMappingAttribute != null)
+        {
+            return columnMappingAttribute.ColumnName;
+        }
+        
+        var columnAttribute = member.GetCustomAttribute<ColumnAttribute>();
+        return columnAttribute?.Name ?? member.Name;
+    }
+    
+    internal static string ResolvePropertyColumnName(PropertyInfo propertyInfo)
+    {
+        string colName = propertyInfo.Name;
+        var colAttribute = propertyInfo.GetCustomAttributes(typeof(ColumnAttribute)).ToList();
+        if (colAttribute.Count != 0)
+        {
+            if (colAttribute[0] is ColumnAttribute columnAttribute && !string.IsNullOrWhiteSpace(columnAttribute.Name))
+            {
+                colName = columnAttribute.Name;
+            }
+        }
+        else
+        {
+            colAttribute = propertyInfo.GetCustomAttributes(typeof(ColumnMappingAttribute)).ToList();
+            if (colAttribute.Count != 0 && colAttribute[0] is ColumnMappingAttribute columnMappingAttribute)
+            {
+                colName = columnMappingAttribute.ColumnName;
+            }
+        }
+        
+        return $"\"{colName}\"";
+    }
 }

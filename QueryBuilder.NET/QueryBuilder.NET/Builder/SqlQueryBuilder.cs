@@ -48,4 +48,14 @@ public static class SqlQueryBuilder
     {
         return new DeleteStatement(tableName);
     }
+
+    public static IUpdateStatement<T> Update<T>(T value)
+    {
+        return new UpdateStatement<T>(value);
+    }
+
+    public static IUpdateStatement<T> Update<T>(T value, string tableName)
+    {
+        return new UpdateStatement<T>(value, tableName);
+    }
 }
