@@ -73,14 +73,8 @@ internal static class NamingHelper
             throw new ArgumentException("The expression is not a valid property expression.", nameof(propertySelector));
         }
 
-        var columnMappingAttribute = memberExp.Member.GetCustomAttribute<ColumnMappingAttribute>();
-        if (columnMappingAttribute != null)
-        {
-            return columnMappingAttribute.ColumnName;
-        }
-        
-        var columnAttribute = memberExp.Member.GetCustomAttribute<ColumnAttribute>();
-        return columnAttribute?.Name ?? memberExp.Member.Name;
+
+        return GetColumnNameFromMember(memberExp.Member);
     }
 
     internal static string GetColumnNameFromMember(MemberInfo member)
@@ -93,28 +87,5 @@ internal static class NamingHelper
         
         var columnAttribute = member.GetCustomAttribute<ColumnAttribute>();
         return columnAttribute?.Name ?? member.Name;
-    }
-    
-    internal static string ResolvePropertyColumnName(PropertyInfo propertyInfo)
-    {
-        string colName = propertyInfo.Name;
-        var colAttribute = propertyInfo.GetCustomAttributes(typeof(ColumnAttribute)).ToList();
-        if (colAttribute.Count != 0)
-        {
-            if (colAttribute[0] is ColumnAttribute columnAttribute && !string.IsNullOrWhiteSpace(columnAttribute.Name))
-            {
-                colName = columnAttribute.Name;
-            }
-        }
-        else
-        {
-            colAttribute = propertyInfo.GetCustomAttributes(typeof(ColumnMappingAttribute)).ToList();
-            if (colAttribute.Count != 0 && colAttribute[0] is ColumnMappingAttribute columnMappingAttribute)
-            {
-                colName = columnMappingAttribute.ColumnName;
-            }
-        }
-        
-        return $"\"{colName}\"";
     }
 }

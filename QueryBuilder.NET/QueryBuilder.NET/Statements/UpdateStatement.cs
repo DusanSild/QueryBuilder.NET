@@ -33,10 +33,10 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
         for (var propertyIdx = 0; propertyIdx < propertyList.Count; propertyIdx++)
         {
             var property = propertyList[propertyIdx];
-            var columnName = NamingHelper.ResolvePropertyColumnName(property);
+            var columnName = NamingHelper.GetColumnNameFromMember(property);
             var paramName = NamingHelper.CreateParamName(property.Name);
 
-            builder.Append($"{columnName} = {paramName}");
+            builder.Append($"\"{columnName}\" = {paramName}");
             if (propertyIdx != propertyList.Count - 1)
             {
                 builder.Append(", ");
