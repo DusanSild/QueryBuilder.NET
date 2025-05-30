@@ -25,7 +25,7 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
     public DapperQuery BuildQuery()
     {
         var builder = new StringBuilder();
-        builder.Append($"""UPDATE "{TableName}" SET ( """);
+        builder.Append($"""UPDATE {NamingHelper.FormatSqlName(TableName)} SET ( """);
 
         var propertyList = FilterProperties(typeof(T));
         var dynamicParameters = new DynamicParameters();
@@ -36,7 +36,7 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
             var columnName = NamingHelper.GetColumnNameFromMember(property);
             var paramName = NamingHelper.CreateParamName(property.Name);
 
-            builder.Append($"\"{columnName}\" = {paramName}");
+            builder.Append($"{NamingHelper.FormatSqlName(columnName)} = {paramName}");
             if (propertyIdx != propertyList.Count - 1)
             {
                 builder.Append(", ");
@@ -69,7 +69,7 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
 
     public IUpdateStatement<T> Returning(params string[] columns)
     {
-        _returningColumns.AddRange(columns.Select(s => $"\"{s}\""));
+        _returningColumns.AddRange(columns.Select(NamingHelper.FormatSqlName));
         return this;
     }
 

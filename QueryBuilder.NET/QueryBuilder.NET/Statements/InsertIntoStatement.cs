@@ -22,7 +22,7 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
     public DapperQuery BuildQuery()
     {
         var builder = new StringBuilder();
-        builder.Append($"""INSERT INTO "{TableName}" """);
+        builder.Append($"""INSERT INTO {NamingHelper.FormatSqlName(TableName)} """);
 
         var propertyList = FilterProperties(typeof(T));
 
@@ -67,7 +67,7 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
 
     public IInsertIntoStatement Returning(params string[] columns)
     {
-        _returningColumns.AddRange(columns.Select(s => $"\"{s}\""));
+        _returningColumns.AddRange(columns.Select(NamingHelper.FormatSqlName));
         return this;
     }
 
@@ -138,6 +138,6 @@ public sealed class InsertIntoStatement<T>(T value, string tableName = "") : IIn
             }
         }
         
-        return $"\"{colName}\"";
+        return NamingHelper.FormatSqlName(colName);
     }
 }
