@@ -17,11 +17,12 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
     public bool IsReturningIdColumn { get; private set; }
     public bool IsUpdatingAll => _updatingProperties.Count == 0;
 
-    private readonly List<string> _returningColumns = [];
-    private readonly List<PropertyInfo> _updatingProperties = [];
+    private readonly HashSet<string> _returningColumns = [];
+    private readonly HashSet<PropertyInfo> _updatingProperties = [];
 
     public List<WhereClause> WhereExpressions { get; } = [];
 
+    /// <inheritdoc cref="IQueryBuilderStatement"/>
     public DapperQuery BuildQuery()
     {
         var builder = new StringBuilder();
@@ -30,17 +31,19 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
         var propertyList = FilterProperties(typeof(T));
         var dynamicParameters = new DynamicParameters();
 
-        for (var propertyIdx = 0; propertyIdx < propertyList.Count; propertyIdx++)
+        bool first = true;
+        foreach (var property in propertyList)
         {
-            var property = propertyList[propertyIdx];
+            if (!first)
+            {
+                builder.Append(", ");
+            }
+
+            first = false;
             var columnName = NamingHelper.GetColumnNameFromMember(property);
             var paramName = NamingHelper.CreateParamName(property.Name);
 
             builder.Append($"{NamingHelper.FormatSqlName(columnName)} = {paramName}");
-            if (propertyIdx != propertyList.Count - 1)
-            {
-                builder.Append(", ");
-            }
 
             dynamicParameters.Add(paramName, property.GetValue(value));
         }
@@ -67,12 +70,14 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
         };
     }
 
+    /// <inheritdoc cref="IReturningStatement{T}"/>
     public IUpdateStatement<T> Returning(params string[] columns)
     {
         _returningColumns.AddRange(columns.Select(NamingHelper.FormatSqlName));
         return this;
     }
 
+    /// <inheritdoc cref="IReturningStatement{T}"/>
     public IUpdateStatement<T> ReturningId(string? idColumnName = null)
     {
         IsReturningIdColumn = true;
@@ -84,11 +89,15 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
         return this;
     }
 
+    /// <inheritdoc cref="IUpdateStatement{TEntity}"/>
     public IUpdateStatement<T> Updating(Expression<Func<T, object>> selector)
     {
         if (selector.Body is NewExpression newExpr)
         {
-            _updatingProperties.AddRange(newExpr.Arguments.Select(GetMemberFromExpression).OfType<PropertyInfo>());
+            foreach (var propertyInfo in newExpr.Arguments.Select(GetMemberFromExpression).OfType<PropertyInfo>())
+            {
+                _updatingProperties.Add(propertyInfo);
+            }
         }
         else
         {
@@ -102,7 +111,7 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
         return this;
     }
 
-    private List<PropertyInfo> FilterProperties(Type modelType)
+    private HashSet<PropertyInfo> FilterProperties(Type modelType)
     {
         if (!IsUpdatingAll)
         {
@@ -110,7 +119,7 @@ public class UpdateStatement<T>(T value, string tableName = "") : IUpdateStateme
         }
 
         var modelProperties = modelType.GetProperties();
-        List<PropertyInfo> properties = new();
+        HashSet<PropertyInfo> properties = [];
         foreach (var propertyInfo in modelProperties)
         {
             if (!propertyInfo.CanRead || !propertyInfo.CanWrite ||

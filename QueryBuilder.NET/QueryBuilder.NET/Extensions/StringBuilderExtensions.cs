@@ -7,14 +7,14 @@ namespace QueryBuilderDotNet.Extensions;
 
 internal static class StringBuilderExtensions
 {
-    internal static StringBuilder AppendWhereClauses(this StringBuilder builder, List<WhereClause> source, DynamicParameters dynamicParameters)
+    internal static StringBuilder AppendWhereClauses(this StringBuilder builder, List<WhereClause> source, DynamicParameters dynamicParameters, bool isFirst = true)
     {
         if (source.Count < 1)
         {
             return builder;
         }
 
-        bool first = true;
+        bool first = isFirst;
         int index = 0;
         foreach (var expression in source)
         {
