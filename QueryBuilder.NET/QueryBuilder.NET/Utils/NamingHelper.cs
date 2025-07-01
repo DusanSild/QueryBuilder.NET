@@ -17,7 +17,7 @@ internal static class NamingHelper
 
         return tableAttribute.Name;
     }
-    
+
     internal static string CreateParamName(string propertyName)
     {
         return $"@{propertyName.ToCamelCase()}";
@@ -25,6 +25,11 @@ internal static class NamingHelper
 
     internal static string FormatSqlName(string entityName)
     {
+        if (entityName.StartsWith('"') && entityName.EndsWith('"'))
+        {
+            return entityName;
+        }
+
         return $"\"{entityName}\"";
     }
 
@@ -37,13 +42,13 @@ internal static class NamingHelper
         {
             return QueryBuilderDefaults.IdColumnName;
         }
-        
+
         var columnMappingAttribute = keyProperty.GetCustomAttribute<ColumnMappingAttribute>();
         if (columnMappingAttribute != null)
         {
             return columnMappingAttribute.ColumnName;
         }
-        
+
         var columnAttribute = keyProperty.GetCustomAttribute<ColumnAttribute>();
         return columnAttribute?.Name ?? keyProperty.Name;
     }
@@ -73,13 +78,19 @@ internal static class NamingHelper
             throw new ArgumentException("The expression is not a valid property expression.", nameof(propertySelector));
         }
 
-        var columnMappingAttribute = memberExp.Member.GetCustomAttribute<ColumnMappingAttribute>();
+
+        return GetColumnNameFromMember(memberExp.Member);
+    }
+
+    internal static string GetColumnNameFromMember(MemberInfo member)
+    {
+        var columnMappingAttribute = member.GetCustomAttribute<ColumnMappingAttribute>();
         if (columnMappingAttribute != null)
         {
             return columnMappingAttribute.ColumnName;
         }
-        
-        var columnAttribute = memberExp.Member.GetCustomAttribute<ColumnAttribute>();
-        return columnAttribute?.Name ?? memberExp.Member.Name;
+
+        var columnAttribute = member.GetCustomAttribute<ColumnAttribute>();
+        return columnAttribute?.Name ?? member.Name;
     }
 }

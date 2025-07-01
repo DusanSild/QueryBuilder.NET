@@ -5,7 +5,7 @@
 QueryBuilder.NET is a simple SQL query generator based on **Dapper** and **Dapper.ColumnMapper** that helps building sql queries in a fluent builder-like style.
 
 In this early version:
-- only Insert and Delete command is implemented
+- only Insert, Delete and Update commands are implemented
 - only PostgreSQL syntax is supported
 - only primitive straigh-forward WHERE clauses are supported
 

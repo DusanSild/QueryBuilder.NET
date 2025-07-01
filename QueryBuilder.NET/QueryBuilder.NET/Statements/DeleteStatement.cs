@@ -1,5 +1,6 @@
 using System.Text;
 using Dapper;
+using QueryBuilderDotNet.Extensions;
 using QueryBuilderDotNet.Models;
 using QueryBuilderDotNet.Statements.Interfaces;
 using QueryBuilderDotNet.Utils;
@@ -36,27 +37,7 @@ public abstract class DeleteStatementBase : IDeleteStatement
         builder.AppendLine($"""DELETE FROM {NamingHelper.FormatSqlName(TableName)} """);
 
         var dynamicParameters = new DynamicParameters();
-        if (WhereExpressions.Count > 0)
-        {
-            bool first = true;
-            int index = 0;
-            foreach (var expression in WhereExpressions)
-            {
-                if (first)
-                {
-                    first = false;
-                    builder.Append("WHERE ");
-                }
-                else
-                {
-                    builder.Append($"{expression.LogicalOperator.ToString().ToUpper()} ");
-                }
-                
-                var paramName = $"@p{index++}";
-                dynamicParameters.Add(paramName, expression.Value);
-                builder.Append($"{NamingHelper.FormatSqlName(expression.Column)} = {paramName} ");
-            }
-        }
+        builder.AppendWhereClauses(WhereExpressions, dynamicParameters);
 
         builder.Append(';');
         
